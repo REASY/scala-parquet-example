@@ -1,0 +1,18 @@
+{
+  "namespace": "models.avro",
+  "type" : "record",
+  "name" : "Person",
+  "fields" : [ {
+    "name" : "person_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "age",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "household_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  } ]
+}

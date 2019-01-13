@@ -1,0 +1,18 @@
+{
+  "namespace": "models.avro",
+  "type" : "record",
+  "name" : "ParcelAttribute",
+  "fields" : [ {
+    "name" : "primary_id",
+    "type" : [ "null", "long" ],
+    "default" : null
+  }, {
+    "name" : "x",
+    "type" : [ "null", "double" ],
+    "default" : null
+  }, {
+    "name" : "y",
+    "type" : [ "null", "double" ],
+    "default" : null
+  }]
+}
