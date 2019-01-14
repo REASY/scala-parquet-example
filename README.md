@@ -21,6 +21,7 @@ To run the [CsvReader](CsvReader.scala) execute the following:
 | ParquetReader(Parallel data transf) | Read and transform Persons to HouseholdToPersons map                  | 5578.0 |
 | CsvReader                           | Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map | 6747.8 |
 | CsvReader                           | Read and transform Persons to HouseholdToPersons map (typed)          | 6106.8 |
+
 GC logs:
 - [AvroReader](https://gceasy.io:443/my-gc-report.jsp?p=c2hhcmVkLzIwMTkvMDEvMTQvLS1BdnJvU2VyaWFsX2djLmxvZy0tMTYtNTQtMjE=&channel=WEB)
 - [CsvReader](https://gceasy.io:443/my-gc-report.jsp?p=c2hhcmVkLzIwMTkvMDEvMTQvLS1jc3ZfZ2MubG9nLS0xNi01My00MA==&channel=WEB)
