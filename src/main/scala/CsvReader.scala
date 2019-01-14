@@ -15,21 +15,23 @@ object CsvReader extends BenchmarkHelper{
   def main(args: Array[String]): Unit = {
     println("***CsvReader***")
 
-    bench(maxTries, "benchmarkParcelAttributes", benchmarkParcelAttributes)
+    bench(maxTries, "Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map (untyped)", benchmarkParcelAttributes)
 
-    bench(maxTries, "benchmarkPersons", benchmarkPersons)
+    bench(maxTries, "Read and transform Persons to HouseholdToPersons map (typed)", benchmarkPersons)
   }
 
   def benchmarkPersons: Unit = {
-    val householdToPersons: collection.Map[Long, ListBuffer[Person]] = meter("readPersonsFile",
+    val householdToPersons: collection.Map[Long, ListBuffer[Person]] = meter(
+      "Total time to read and transform Persons to HouseholdToPersons map (typed)",
       readPersonsFile("C:/repos/apache_arrow/py_arrow/data/persons.csv"))
-    println(s"readPersonsFile: householdToPersons size: ${householdToPersons.size}")
+    println(s"HouseholdToPersons map size is ${householdToPersons.size}")
   }
 
   def benchmarkParcelAttributes: Unit = {
-    val parcelAttrs: Map[String, util.Map[String, String]] = meter("readParcelAttrFile",
+    val parcelAttrs: Map[String, util.Map[String, String]] = meter(
+      "Total time to read and transform ParcelAttributes to PrimaryIdToParcelAttribute map (untyped)",
       readParcelAttrFile("C:/repos/apache_arrow/py_arrow/data/parcel_attr.csv"))
-    println(s"readParcelAttrFile: parcelAttrs size = ${parcelAttrs.size}")
+    println(s"PrimaryIdToParcelAttribute map size is ${parcelAttrs.size}")
   }
 
   def readParcelAttrFile(filePath: String): Map[String, java.util.Map[String, String]] = {

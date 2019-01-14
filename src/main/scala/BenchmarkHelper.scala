@@ -1,5 +1,5 @@
 trait BenchmarkHelper {
-  def maxTries: Int = 3
+  def maxTries: Int = 6
 
   def bench(maxTries: Int, name: String, f: => Unit): Unit = {
     assert (maxTries != 0)
@@ -12,7 +12,7 @@ trait BenchmarkHelper {
     val e = System.currentTimeMillis()
     val d = e - s
     val avg = d.toDouble / maxTries
-    println(s"$name executed $maxTries. AVG time: $avg ms")
+    println(s"$name executed $maxTries times. AVG time: $avg ms")
   }
 
   def meter[T](what: String, body: => T, logger: String => Unit = println): T = {

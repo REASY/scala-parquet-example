@@ -11,41 +11,43 @@ object AvroReader extends BenchmarkHelper {
   def main(args: Array[String]): Unit = {
     println("***AvroReader***")
 
-    bench(maxTries, "benchmarkParcelAttributes", benchmarkParcelAttributes)
+    bench(maxTries, "Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map", benchmarkParcelAttributes)
 
-    bench(maxTries, "benchmarkPersons", benchmarkPersons)
+    bench(maxTries, "Read and transform Persons to HouseholdToPersons map", benchmarkPersons)
   }
 
   def benchmarkPersons: Unit = {
     val path = new Path("c:\\repos\\apache_arrow\\py_arrow\\data\\persons.parquet")
 
-    meter(s"Total time to process Person from '${path.toString}'", {
-      val persons = meter("readPersons", readPersons(path).toArray.par)
+    meter(s"Total time to read and transform Persons to HouseholdToPersons map", {
+      val persons = meter("Read persons", readPersons(path).toArray.par)
       val size = persons.size
-      println(s"readPersonsFile: persons size is $size")
+      println(s"Persons size is $size")
 
-      val map = meter("asHouseholdToPersons", asHouseholdToPersons(persons))
-      println(s"asHouseholdToPersons:  map size is ${map.size}")
+      val map = meter("Transform persons to HouseholdToPersons map", asHouseholdToPersons(persons))
+      println(s"HouseholdToPersons map size is ${map.size}")
     })
   }
 
   def benchmarkParcelAttributes: Unit = {
     val path = new Path("c:\\repos\\apache_arrow\\py_arrow\\data\\parcel_attr.parquet")
-    meter(s"Total time to process ParcelAttribute from '${path.toString}'", {
-      val parcelAttributes = meter("readParcelAttributes", readParcelAttributes(path).toArray.par)
+    meter(s"Total time to read and transform ParcelAttributes to PrimaryIdToParcelAttribute map", {
+      val parcelAttributes = meter("Read parcel attributes", readParcelAttributes(path).toArray.par)
       val size = parcelAttributes.size
-      println(s"readParcelAttributes: parcelAttributes size is $size")
+      println(s"ParcelAttributes map size is $size")
 
-      val map = meter("asPrimaryIdToParcelAttributesMap", asPrimaryIdToParcelAttributesMap(parcelAttributes))
-      println(s"asPrimaryIdToParcelAttributesMap: map size is ${map.size}")
+      val map = meter("Transform ParcelAttributes to PrimaryIdToParcelAttribute map", asPrimaryIdToParcelAttributesMap(parcelAttributes))
+      println(s"PrimaryIdToParcelAttribute map size is ${map.size}")
     })
   }
 
   def asHouseholdToPersons(seq: GenSeq[Person]): scala.collection.GenMap[Option[Long], GenSeq[Person]] = {
+    // We can parallelize here using `.par`
     seq.groupBy(p => p.household_id)
   }
 
   def asPrimaryIdToParcelAttributesMap(seq: GenSeq[ParcelAttribute]): scala.collection.GenMap[Option[Long], ParcelAttribute] = {
+    // We can parallelize here using `.par`
     seq.groupBy(pa => pa.primary_id)
       .map { case (k, v) => k -> v.head }
   }
