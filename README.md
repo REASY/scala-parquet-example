@@ -11,7 +11,7 @@ To run the [AvroReader](AvroReader.scala) execute the following:
 # CsvReader
 To run the [CsvReader](CsvReader.scala) execute the following:
 ```sh
- sbt "runMain CsvReader c:\\repos\\apache_arrow\\py_arrow\\data\\parcel_attr.csv c:\\repos\\apache_arrow\\py_arrow\\data\\persons.csv"
+ sbt "runMain CsvReader #PATH_TO_PARCEL_ATTR# #PATH_TO_PERSONS#""
  ```
 ## Comparison table
 | Reader                              | Type                                                                  | AVG ms |
