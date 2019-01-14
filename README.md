@@ -1,7 +1,7 @@
 # Parquet vs Csv
 
 # AvroReader
-It uses [parquet-mr](https://github.com/apache/parquet-mr) to read parquet file. To decode it to needed type I use [avro4s](https://github.com/sksamuel/avro4s). Avro schemas sits under  [src/main/avro/](src/main/avro/): [ParcelAttribute.avsc](src/main/avro/ParcelAttribute.avsc), (Person.avsc)[src/main/avro/Person.avsc]. To generate case class from avro schema I use [sbt-avrohugger](https://github.com/julianpeeters/sbt-avrohugger). Link to the data files (Avro and CSV): https://drive.google.com/open?id=1utjIoUDf_qtGZlZivRASOEWdRVdLIwGC
+It uses [parquet-mr](https://github.com/apache/parquet-mr) to read parquet file. To decode it to needed type I use [avro4s](https://github.com/sksamuel/avro4s). Avro schemas sits under  [src/main/avro/](src/main/avro/): [ParcelAttribute.avsc](src/main/avro/ParcelAttribute.avsc), [Person.avsc](src/main/avro/Person.avsc). To generate case class from avro schema I use [sbt-avrohugger](https://github.com/julianpeeters/sbt-avrohugger). Link to the data files (Avro and CSV): https://drive.google.com/open?id=1utjIoUDf_qtGZlZivRASOEWdRVdLIwGC
 To run the [AvroReader](AvroReader.scala) execute the following:
 ```sh
  sbt "runMain AvroReader #PATH_TO_PARCEL_ATTR# #PATH_TO_PERSONS#"
