@@ -9,18 +9,22 @@ import scala.collection.GenSeq
 
 object AvroReader extends BenchmarkHelper {
   def main(args: Array[String]): Unit = {
+    assert(args.length == 2, "Expected two arguments as a path to parquet files")
+    val pathToParcelAttributes = args.head
+    val pathToPersons = args.last
+
     println("***AvroReader***")
+    println(s"Path to ParcelAttributes parquet file: $pathToParcelAttributes")
+    println(s"Path to Persons parquet file: $pathToPersons")
 
-    bench(maxTries, "Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map", benchmarkParcelAttributes)
+    bench(maxTries, "Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map", benchmarkParcelAttributes(pathToParcelAttributes))
 
-    bench(maxTries, "Read and transform Persons to HouseholdToPersons map", benchmarkPersons)
+    bench(maxTries, "Read and transform Persons to HouseholdToPersons map", benchmarkPersons(pathToPersons))
   }
 
-  def benchmarkPersons: Unit = {
-    val path = new Path("c:\\repos\\apache_arrow\\py_arrow\\data\\persons.parquet")
-
+  def benchmarkPersons(path: String): Unit = {
     meter(s"Total time to read and transform Persons to HouseholdToPersons map", {
-      val persons = meter("Read persons", readPersons(path).toArray.par)
+      val persons = meter("Read persons", readPersons(new Path(path)).toArray.par)
       val size = persons.size
       println(s"Persons size is $size")
 
@@ -29,10 +33,9 @@ object AvroReader extends BenchmarkHelper {
     })
   }
 
-  def benchmarkParcelAttributes: Unit = {
-    val path = new Path("c:\\repos\\apache_arrow\\py_arrow\\data\\parcel_attr.parquet")
+  def benchmarkParcelAttributes(path: String): Unit = {
     meter(s"Total time to read and transform ParcelAttributes to PrimaryIdToParcelAttribute map", {
-      val parcelAttributes = meter("Read parcel attributes", readParcelAttributes(path).toArray.par)
+      val parcelAttributes = meter("Read parcel attributes", readParcelAttributes(new Path(path)).toArray.par)
       val size = parcelAttributes.size
       println(s"ParcelAttributes map size is $size")
 

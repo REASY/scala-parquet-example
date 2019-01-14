@@ -13,24 +13,30 @@ object CsvReader extends BenchmarkHelper{
   import scala.language.reflectiveCalls
 
   def main(args: Array[String]): Unit = {
+    assert(args.length == 2, "Expected two arguments as a path to parquet files")
+    val pathToParcelAttributes = args.head
+    val pathToPersons = args.last
+
     println("***CsvReader***")
+    println(s"Path to ParcelAttributes csv file: $pathToParcelAttributes")
+    println(s"Path to Persons csv file: $pathToPersons")
 
-    bench(maxTries, "Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map (untyped)", benchmarkParcelAttributes)
+    bench(maxTries, "Read and transform ParcelAttributes to PrimaryIdToParcelAttribute map (untyped)", benchmarkParcelAttributes(pathToParcelAttributes))
 
-    bench(maxTries, "Read and transform Persons to HouseholdToPersons map (typed)", benchmarkPersons)
+    bench(maxTries, "Read and transform Persons to HouseholdToPersons map (typed)", benchmarkPersons(pathToPersons))
   }
 
-  def benchmarkPersons: Unit = {
+  def benchmarkPersons(path: String): Unit = {
     val householdToPersons: collection.Map[Long, ListBuffer[Person]] = meter(
       "Total time to read and transform Persons to HouseholdToPersons map (typed)",
-      readPersonsFile("C:/repos/apache_arrow/py_arrow/data/persons.csv"))
+      readPersonsFile(path))
     println(s"HouseholdToPersons map size is ${householdToPersons.size}")
   }
 
-  def benchmarkParcelAttributes: Unit = {
+  def benchmarkParcelAttributes(path: String): Unit = {
     val parcelAttrs: Map[String, util.Map[String, String]] = meter(
       "Total time to read and transform ParcelAttributes to PrimaryIdToParcelAttribute map (untyped)",
-      readParcelAttrFile("C:/repos/apache_arrow/py_arrow/data/parcel_attr.csv"))
+      readParcelAttrFile(path))
     println(s"PrimaryIdToParcelAttribute map size is ${parcelAttrs.size}")
   }
 
