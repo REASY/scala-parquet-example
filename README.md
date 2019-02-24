@@ -28,7 +28,12 @@ GC logs:
 - [CsvReader](https://gceasy.io:443/my-gc-report.jsp?p=c2hhcmVkLzIwMTkvMDEvMTQvLS1jc3ZfZ2MubG9nLS0xNi01My00MA==&channel=WEB)
 
 # Convert CSV files to parquet:
-I used next Python 3 code to convert CSV files to parquet using [PyArrow](https://arrow.apache.org/docs/python/install.html):
+I used [PyArrow](https://arrow.apache.org/docs/python/install.html) to convert CSV file to parquet. Here is the steps to prepare virtual environment for Python 3:
+1. Create virtual environment `python3 -m venv env`
+2. Activate it `source env/bin/activate`
+3. Install dependencies `pip install numpy pandas pyarrow`
+
+Then you can run next script to convert `CSV` to `parquet`:
 ```python
 import time
 
