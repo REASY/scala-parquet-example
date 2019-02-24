@@ -46,7 +46,7 @@ def convert(csvPath, parquetPath, compression='NONE'):
 	schema = t1.schema
 	print(schema)
 
-	writer = pq.ParquetWriter(parquetPath, schema, compression)
+	writer = pq.ParquetWriter(parquetPath, schema, compression=compression)
 	writer.write_table(t1)
 	writer.close
 	elapsed_time = time.perf_counter() - start_time
